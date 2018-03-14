@@ -1,0 +1,26 @@
+    import java.util.*;
+    public class Main{
+    public static void main(String[] args){
+    Scanner scan = new Scanner(System.in);
+    int T = scan.nextInt();
+    for(int j = 0;j<T;j++){
+     
+    int N = scan.nextInt();
+    //int[] seq = new Int[N];
+    int count = 0;
+    for(int i = 0;i<N;i++){
+    int f = scan.nextInt();
+    if(f%2 != 0){
+    count++;
+    }
+    }
+    if(count%2 == 0 || N == 1){
+    System.out.println(1);
+    }
+    else
+    {
+    System.out.println(2);
+    }
+    }
+    }
+    } 
