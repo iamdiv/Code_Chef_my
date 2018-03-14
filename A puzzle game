@@ -1,0 +1,170 @@
+        import java.io.BufferedInputStream;
+        import java.io.IOException;
+        import java.io.InputStream;
+        import java.util.ArrayDeque;
+        import java.util.ArrayList;
+        import java.util.HashMap;
+        import java.util.LinkedList;
+        import java.util.List;
+        import java.util.Map;
+        import java.util.Queue;
+         
+         
+         
+         
+        public class Main {
+        	static boolean[] isPrime ={false,true,true,true,false,true,false,true,false,false,false,
+        		true,false,true,false,false,false,true};
+        	
+        	static int[][]validSwaps = {{0, 1}, {0, 3}, {1, 2}, {1, 4},
+        	      {2, 5}, {3, 4}, {3, 6}, {4, 5}, {4, 7}, {5, 8}, {6, 7}, {7, 8}}; 
+        	static int[] goals ={1 , 2, 3, 4, 5, 6, 7, 8, 9};
+        	static class State{
+        		int[] s;
+        		public State(int[] s1) {
+        			s = s1;
+        		}
+        		public State clone(){
+        			int[] s2 = new int[9];
+        			for(int i=0;i<9;i++){
+        				s2[i]=s[i];
+        			}
+        			State s1 = new State(s2);
+        			return s1;
+        			
+        			
+        		}
+        		 public int hashCode() {
+        			    int code = 0;
+        			    for (int i = 0; i < 9; i++) {
+        			      code = code * 10 + s[i];
+        			    }
+        			 
+        			    return code;
+        			  }
+        			 
+        		@Override
+        		public boolean equals(Object obj) {
+        			State s2= (State)obj;
+        			for(int i=0;i<9;i++){
+        				if(s2.s[i]!=s[i]){
+        					return false;
+        				}
+        			}
+        			return true;
+        		}
+        		public State swap(int i,int j){
+        			State s1 = clone();
+        			int temp;
+        			temp = s1.s[i];
+        			s1.s[i]=s1.s[j];
+        			s1.s[j] = temp;
+        			return s1;
+        			
+        		}
+        		public void print(){
+        			for(int i=0;i<9;i++){
+        				System.out.print(s[i]+" ");
+        			}
+        		}
+        		
+        	}
+        	static Queue<State>q = new ArrayDeque<State>();
+        	static Map<State,Integer>l = new HashMap<State,Integer>();
+        	static State goal = new State(goals);
+        	
+        	public static class EfficientReader {
+        		BufferedInputStream buff;
+        		public EfficientReader(InputStream in) {
+        			buff = new BufferedInputStream(in);
+        		}
+        		public int nextInt(){
+         
+        			try {
+        				int in = 0;
+        				char inChar;
+        				int num =0; 
+        				while(true){
+        					in = buff.read();
+        					inChar = (char) in;
+        					if (inChar>='0'&&inChar<='9') {
+        						num =inChar-'0';
+        						break;
+        					}
+        				}
+        				while(true){
+        					in = buff.read();
+        					inChar = (char) in;
+        					if(!(inChar>='0'&&inChar<='9')){
+        						break;
+        					}
+        					num=(num*10)+(inChar-'0');
+        				}
+         
+        				return num;
+         
+        			} catch (IOException e) {
+        				System.out.println("Exception: " + e.getMessage());
+        				return -1;
+        			}
+        		}
+        	}
+         
+        	
+        	private static void bfs(){
+        		int[] s = new int[9];
+        		for(int i=0;i<9;i++){
+        			s[i]=i+1;
+        		}
+        		int count=0;
+        		State init = new State(s);
+        		q.add(init);
+        		l.put(init,0);
+        		do{
+        			State curr = q.poll();
+        			for(int i=0;i<12;i++){
+        				int j = validSwaps[i][0];
+        				int k =  validSwaps[i][1];
+        					if(isPrime[curr.s[j]+curr.s[k]]){
+        						State n =curr.swap(j, k);
+        						if(!l.containsKey(n)){
+        							q.add(n);
+        							l.put(n,l.get(curr)+1);
+        							//System.out.println(count++);
+        							//n.print();
+        							
+        						}
+        					
+        				}
+        				
+        			}
+        		}while(!q.isEmpty());
+        	}
+        	private static void printMinSteps(State s){
+        		if(!l.containsKey(s)){
+        			System.out.println("-1");
+        		}
+        		else{
+        			System.out.println(l.get(s));
+        		}
+        		
+        	}
+        	public static void main(String[] args) {
+        		EfficientReader sc = new EfficientReader(System.in);
+        		
+        		int testCases=sc.nextInt();
+        		int[] s= new int[9];
+        		int count =0;
+        		bfs();
+        		for(int i=0;i<testCases;i++){
+        			for(int j=0;j<9;j++){
+        				s[j]=sc.nextInt();
+        				
+        			}
+        			State s1 = new State(s);
+        			printMinSteps(s1);
+        		}
+         
+        	}
+         
+        }   
