@@ -1,0 +1,52 @@
+    import java.util.*;
+    public class Main{
+    public static void main(String[] args){
+    Scanner scan = new Scanner(System.in);
+    int t = scan.nextInt();
+    for(int j = 0;j < t;j++){
+    int n = scan.nextInt();
+    int discnt1 = 0,discnt2 = 0,discnt3 = 0,city1 = 101,city2 = 101,city3 = 101;
+    for(int i = 0;i<n;i++){
+    int city = scan.nextInt();
+    int level = scan.nextInt();
+    int discnt = scan.nextInt();
+    if(level == 1){
+    if(discnt > discnt1){
+    discnt1 = discnt;
+    city1 = city;
+    }
+    if(discnt == discnt1){
+    if(city < city1){
+    city1 = city;
+    }
+    }
+    }
+    if(level == 2){
+    if(discnt > discnt2){
+    discnt2 = discnt;
+    city2 = city;
+    }
+    if(discnt == discnt2){
+    if(city < city2){
+    city2 = city;
+    }
+    }
+    }
+    if(level == 3){
+    if(discnt > discnt3){
+    discnt3 = discnt;
+    city3 = city;
+    }
+    if(discnt == discnt3){
+    if(city < city3){
+    city3 = city;
+    }
+    }
+    }
+    }
+    System.out.println(discnt1 + " " +city1);
+    System.out.println(discnt2 + " " +city2);
+    System.out.println(discnt3 + " " +city3);
+    }
+    }
+    } 
